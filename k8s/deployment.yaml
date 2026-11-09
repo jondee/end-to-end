@@ -12,11 +12,21 @@ spec:
       labels:
         app: demo-app
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: demo-app
         image: tolu2618/end-to-end:latest
         ports:
         - containerPort: 8080
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
 ---
 apiVersion: v1
 kind: Service
